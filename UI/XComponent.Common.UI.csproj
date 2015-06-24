@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CEA7AF35-7D35-4FA1-88D3-07DE080AA9C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XComponent.Common.UI</RootNamespace>
+    <AssemblyName>XComponent.Common.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\xcomponent.ui.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstFloor.ModernUI">
+      <HintPath>..\packages\ModernUI.WPF.1.0.5\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Monads">
+      <HintPath>..\packages\Monads.1.1.5.0\lib\net40\Monads.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="Syncfusion.Compression.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Core, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4" />
+    <Reference Include="Syncfusion.Data.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Grid.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.GridCommon.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.GridConverter.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Linq.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfInput.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfShared.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\ConfirmationBehavior.cs" />
+    <Compile Include="Behaviors\DialogCloser.cs" />
+    <Compile Include="Behaviors\GridDataControlBehavior.cs" />
+    <Compile Include="Behaviors\SelectOnFocusBehavior.cs" />
+    <Compile Include="Behaviors\UpDownBehavior.cs" />
+    <Compile Include="Behaviors\ValueChangedParameters.cs" />
+    <Compile Include="Command\GridExportCommand.cs" />
+    <Compile Include="Command\IEventCommand.cs" />
+    <Compile Include="Converter\BoolToColorConverter.cs" />
+    <Compile Include="Converter\GetTypeConverter.cs" />
+    <Compile Include="Converter\GridDataDoubleToIntegerConverter.cs" />
+    <Compile Include="Converter\IntConverter.cs" />
+    <Compile Include="Converter\IntToEnumConverter.cs" />
+    <Compile Include="Converter\MultipleBoolAndConverter.cs" />
+    <Compile Include="Converter\NotBooleanConverter.cs" />
+    <Compile Include="Converter\MenuItemHeaderConverter.cs" />
+    <Compile Include="Converter\NullToBooleanConverter.cs" />
+    <Compile Include="DockingInteraction\CommonContextMenuItemFactory.cs" />
+    <Compile Include="DockingInteraction\DefaultInteractionParameterSerializer.cs" />
+    <Compile Include="DockingInteraction\IdentityChangedEventArgs.cs" />
+    <Compile Include="DockingInteraction\IEnslavableInteractionParticipant.cs" />
+    <Compile Include="DockingInteraction\IInteractionMediator.cs" />
+    <Compile Include="DockingInteraction\IInteractionParameter.cs" />
+    <Compile Include="DockingInteraction\IInteractionParameterSerializer.cs" />
+    <Compile Include="DockingInteraction\IInteractionParticipant.cs" />
+    <Compile Include="DockingInteraction\DependencyObjectInteractionParticipant.cs" />
+    <Compile Include="DockingInteraction\IInteractionParticipantCreator.cs" />
+    <Compile Include="DockingInteraction\IInteractionParticipantWithContextMenu.cs" />
+    <Compile Include="DockingInteraction\InteractionMediator.cs" />
+    <Compile Include="DockingInteraction\InteractionMediatorExtensions.cs" />
+    <Compile Include="DockingInteraction\CommonActions.cs" />
+    <Compile Include="DockingInteraction\IParticipantStore.cs" />
+    <Compile Include="DockingInteraction\IParticipantType.cs" />
+    <Compile Include="DockingInteraction\ParticipantIdentity.cs" />
+    <Compile Include="DockingInteraction\Interaction.cs" />
+    <Compile Include="DockingInteraction\InteractionPattern.cs" />
+    <Compile Include="DockingInteraction\ParticipantsChangedEventArgs.cs" />
+    <Compile Include="DockingInteraction\ParticipantStore.cs" />
+    <Compile Include="Docking\DefaultDataTemplateSelector.cs" />
+    <Compile Include="Docking\DockingGroupBehavior.cs" />
+    <Compile Include="Docking\IDockingPanelTitle.cs" />
+    <Compile Include="Docking\RenamingWindow.xaml.cs">
+      <DependentUpon>RenamingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Docking\XCDockingLayout.cs" />
+    <Compile Include="Docking\IDockingKey.cs" />
+    <Compile Include="Docking\IDockingPanelViewModelBuilder.cs" />
+    <Compile Include="Docking\ViewModelSavedParameters.cs" />
+    <Compile Include="Docking\XCDocking.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GridExport\CsvGridExporter.cs" />
+    <Compile Include="GridExport\ExcelGridExporter.cs" />
+    <Compile Include="GridExport\GridExporterFactory.cs" />
+    <Compile Include="GridExport\IGridExporter.cs" />
+    <Compile Include="Grid\Behavior\AutoScrollOnNewRowBehavior.cs" />
+    <Compile Include="Grid\Behavior\ColumnAppearanceBehavior.cs" />
+    <Compile Include="Grid\Behavior\FilterBarToolTipBehavior.cs" />
+    <Compile Include="Grid\Behavior\FiltersProviderBehavior.cs" />
+    <Compile Include="Grid\Converter\ColumnChooserColumnsListConverter.cs" />
+    <Compile Include="Grid\Converter\ColumnLengthConverter.cs" />
+    <Compile Include="Converter\BoolAggregationConverter.cs" />
+    <Compile Include="Grid\ViewModel\ColumnData.cs" />
+    <Compile Include="Grid\ViewModel\ColumnFilterData.cs" />
+    <Compile Include="Grid\ViewModel\ColumnsVisualizationData.cs" />
+    <Compile Include="Grid\ViewModel\ColumnsVisualizationViewModel.cs" />
+    <Compile Include="Grid\ViewModel\ColumnViewModel.cs" />
+    <Compile Include="Grid\ViewModel\FilterData.cs" />
+    <Compile Include="Grid\ViewModel\FilterEnums.cs" />
+    <Compile Include="Grid\View\GridColumnChooser.xaml.cs">
+      <DependentUpon>GridColumnChooser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Grid\View\MenuItemList.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\ExtensionHelper.cs" />
+    <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Helpers\PdfHelper.cs" />
+    <Compile Include="Helpers\ResolutionHelper.cs" />
+    <Compile Include="Helpers\WpfHelper.cs" />
+    <Compile Include="I18n\CultureManager.cs" />
+    <Compile Include="I18n\TranslateExtension.cs" />
+    <Compile Include="Loading\LoadingAdorner.cs" />
+    <Compile Include="Loading\LoadingAdornerControl.cs" />
+    <Compile Include="Loading\LoadingBehavior.cs" />
+    <Compile Include="Loading\LoadingStatusEnum.cs" />
+    <Compile Include="MappingExtensions.cs" />
+    <Compile Include="MessageBox\IMessageService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageBox\MessageService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageBox\XCMessageBox.xaml.cs">
+      <DependentUpon>XCMessageBox.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pdf\PdfViewer.xaml.cs">
+      <DependentUpon>PdfViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pdf\WinFormPdfHost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pdf\WinFormPdfHost.Designer.cs">
+      <DependentUpon>WinFormPdfHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Suggest\AsyncSuggestBehavior.cs" />
+    <Compile Include="Suggest\AutoCompleteSearchTextBox.cs" />
+    <Compile Include="WebBrowser\WebBrowserUtility.cs" />
+    <Compile Include="CustomAssemblyInfo.cs" />
+    <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Wpf\BindableConverter.cs" />
+    <Compile Include="Wpf\BindingProxy.cs" />
+    <Compile Include="Wpf\CheckEmptyConverter.cs" />
+    <Compile Include="Wpf\RibbonHelper.cs" />
+    <Compile Include="Wpf\UIHelper.cs" />
+    <Compile Include="Wpf\VisualTreeExtensions.cs" />
+    <Compile Include="Wpf\WPFExtensions.cs" />
+    <Compile Include="Wpf\XCDelayedNotificationDependencyObject.cs" />
+    <Compile Include="Wpf\XCDelayedNotifyPropertyChanged.cs" />
+    <Compile Include="Wpf\XCNotifyScheduler.cs" />
+    <Compile Include="Wpf\XCPropertyDataProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pdf\WinFormPdfHost.resx">
+      <DependentUpon>WinFormPdfHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Docking\RenamingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Grid\View\GridColumnChooser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MessageBox\XCMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pdf\PdfViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Themes\Generic\AutoCompleteSearchTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Themes\Generic\Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="XamlResources\Skins\DarkSkinDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="XamlResources\Skins\StandardSkinDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="XamlResources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xcomponentui.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxAcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\XComponent\XComponent\XComponent.Targets" Condition="Exists('$(MSBuildExtensionsPath)\XComponent\XComponent\XComponent.Targets')" />
+</Project>

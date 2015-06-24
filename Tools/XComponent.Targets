@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+  
+  <PropertyGroup>
+    <XCBuildTasksLib>.\XCBuildTasks.dll</XCBuildTasksLib>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(XCBuildTasksLib)" TaskName="XCBuildTasks.ConvertAssemblyInfo" />
+
+  <!-- Overriding the Microsoft.CSharp.targets target dependency chain -->
+  <!-- Call our custom AssemblyVersion target before build, even from VS -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      GenerateAssemblyInfo;
+      $(BuildDependsOn);
+      CleanAssemblyInfo
+    </BuildDependsOn>
+    <RebuildDependsOn>
+      GenerateAssemblyInfo;
+      $(BuildDependsOn);
+      CleanAssemblyInfo
+    </RebuildDependsOn>
+    <CleanDependsOn>
+      CleanAssemblyInfo;
+      $(CleanDependsOn)
+    </CleanDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionNumber Condition="'$(VersionNumber)' == ''">5.0.0.0</VersionNumber>
+    <AssemblyTitle Condition="'$(AssemblyTitle)' == ''">$(MSBuildProjectName)</AssemblyTitle>
+    <AssemblyCompany Condition="'$(AssemblyCompany)' == ''">invivoo-grp</AssemblyCompany>
+    <AssemblyProduct Condition="'$(AssemblyProduct)' == ''">XComponent</AssemblyProduct>
+    <AssemblyCopyright Condition="'$(AssemblyCopyright)' == ''">Copyright © invivoo-grp 2014</AssemblyCopyright>
+    <OriginalCompileItems>@(Compile)</OriginalCompileItems>
+    <SourceFileExtension>$(MSBuildProjectExtension.Substring(1,2))</SourceFileExtension>
+    <GeneratedAssemblyInfoFileName>GeneratedAssemblyInfo.cs</GeneratedAssemblyInfoFileName>
+    <CompiledAssemblyInfoFileName Condition="'$(SourceFileExtension)' == 'fs'">GeneratedAssemblyInfo.fs</CompiledAssemblyInfoFileName>
+    <CompiledAssemblyInfoFileName Condition="'$(SourceFileExtension)' == 'cs'">$(GeneratedAssemblyInfoFileName)</CompiledAssemblyInfoFileName>
+  </PropertyGroup>
+
+  <Target Name="GenerateAssemblyInfo">
+    <ItemGroup>
+      <OriginalAssemblyInfos Exclude="CustomAssemblyInfo.$(SourceFileExtension)" Include="**\AssemblyInfo.$(SourceFileExtension)">
+      </OriginalAssemblyInfos>
+      <CustomAssemblyInfos Include="CustomAssemblyInfo.$(SourceFileExtension)">
+      </CustomAssemblyInfos>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="@(OriginalAssemblyInfos)">
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Include="$(CompiledAssemblyInfoFileName)">
+        <Visible>False</Visible>
+      </Compile>
+    </ItemGroup>
+    <Message Text="Generating file $(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName):" Importance="high" />
+    <Message Text="%09AssemblyTitle('$(AssemblyTitle)')" Importance="high" />
+    <Message Text="%09AssemblyCompany('$(AssemblyCompany)')" Importance="high" />
+    <Message Text="%09AssemblyProduct('$(AssemblyProduct)')" Importance="high" />
+    <Message Text="%09AssemblyCopyright('$(AssemblyCopyright)')" Importance="high" />
+    <Message Text="%09AssemblyVersion('$(VersionNumber)')" Importance="high" />
+    <Message Text="%09AssemblyFileVersion('$(VersionNumber)')" Importance="high" />
+
+    <Message Text="Including custom assembly information file %(CustomAssemblyInfos.Identity): %(CustomAssemblyInfos.FullPath)" Condition="$(OriginalCompileItems.Contains('CustomAssemblyInfo.$(SourceFileExtension)')) == 'True'" Importance="high" />
+
+    <Warning File="%(OriginalAssemblyInfos.FullPath)" Text="Ignoring assembly information file %(OriginalAssemblyInfos.Identity): %(OriginalAssemblyInfos.FullPath)" Condition="%(OriginalAssemblyInfos.Identity) != 'CustomAssemblyInfo.$(SourceFileExtension)' And Exists('%(OriginalAssemblyInfos.FullPath)')" />
+    <AssemblyInfo 
+      CodeLanguage="CS" 
+      OutputFile="$(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName)" 
+      AssemblyTitle="$(AssemblyTitle)" 
+      AssemblyCompany="$(AssemblyCompany)" 
+      AssemblyProduct="$(AssemblyProduct)" 
+      AssemblyCopyright="$(AssemblyCopyright)" 
+      AssemblyVersion="$(VersionNumber)" 
+      AssemblyFileVersion="$(VersionNumber)">
+    </AssemblyInfo>
+    
+    <ConvertAssemblyInfo 
+      InputFile="$(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName)" 
+      OutputFile="$(MSBuildProjectDirectory)\$(CompiledAssemblyInfoFileName)"
+      Namespace="XComponent.Assemblies">
+    </ConvertAssemblyInfo>
+  </Target>
+  <Target Name="CleanAssemblyInfo">
+    <ItemGroup>
+      <Compile Remove="$(GeneratedAssemblyInfoFileName)">
+      </Compile>
+    </ItemGroup>
+    <Message Text="Removing generated file $(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName)" Condition="Exists('$(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName)')" Importance="high" />
+    <Delete Files="$(MSBuildProjectDirectory)\$(GeneratedAssemblyInfoFileName)" />
+    <Message Text="Removing generated file $(MSBuildProjectDirectory)\$(CompiledAssemblyInfoFileName)" Condition="Exists('$(MSBuildProjectDirectory)\$(CompiledAssemblyInfoFileName)')" Importance="high" />
+    <Delete Files="$(MSBuildProjectDirectory)\$(CompiledAssemblyInfoFileName)" />
+  </Target>
+</Project>

@@ -1,0 +1,52 @@
+﻿<syncfusion:ChromelessWindow x:Class="XComponent.Common.UI.Grid.View.GridColumnChooser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:I18n="clr-namespace:XComponent.Common.UI.I18n"
+             xmlns:converter="clr-namespace:XComponent.Common.UI.Converter"
+             xmlns:gridconverter="clr-namespace:XComponent.Common.UI.Grid.Converter"
+             xmlns:local="clr-namespace:XComponent.Common.UI.Grid.View"
+             mc:Ignorable="d" Title="{I18n:Translate ChooseColumns}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
+             Style="{StaticResource XComponentDialog}" ShowIcon="False"
+             d:DesignHeight="300" d:DesignWidth="300" SizeToContent="WidthAndHeight" KeyDown="OnKeyDown" Closing="ChromelessWindow_Closing">
+    <Window.Resources>
+        <converter:NotBooleanConverter x:Key="NotBooleanConverter"/>
+        <gridconverter:ColumnChooserColumnsListConverter x:Key="ColumnChooserColumnsListConverter"/>
+    </Window.Resources>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:GridColumnChooser},Mode=FindAncestor}, Path=ColumnsVisibility}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <CheckBox Margin="15,5" Content="{I18n:Translate ShowAllColumns}" IsChecked="{Binding Path=AllColumnsVisible}" IsThreeState="True"/>
+        <ListBox Grid.Row="1" MaxWidth="550" BorderBrush="Transparent" Background="Transparent">
+            <ListBox.ItemsSource>
+                <MultiBinding Mode="OneWay" Converter="{StaticResource ColumnChooserColumnsListConverter}">
+                    <Binding Path="AllColumnsViewModel" />
+                    <Binding Path="ColumnsToExclude" />
+                </MultiBinding>
+            </ListBox.ItemsSource>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="15"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Margin="5,0,25,0" Content="{Binding DisplayName}" IsChecked="{Binding Path=IsHidden, Converter={StaticResource NotBooleanConverter}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <mui:ModernButton Grid.Row="2" Margin="0,0,0,10" HorizontalAlignment="Center" EllipseDiameter="20" IconHeight="12" IconWidth="12"
+                          IsDefault="True" ToolTip="{I18n:Translate Validate}"  Click="ModernButton_Click"
+                          IconData="{StaticResource ValidateGeometry}"/>
+    </Grid>
+</syncfusion:ChromelessWindow>

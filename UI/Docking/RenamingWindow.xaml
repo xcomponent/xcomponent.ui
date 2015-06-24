@@ -1,0 +1,41 @@
+﻿<syncfusion:ChromelessWindow x:Class="XComponent.Common.UI.Docking.RenamingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:i18N="clr-namespace:XComponent.Common.UI.I18n"
+        xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:XComponent.Common.UI.Behaviors"
+        ShowIcon="False"   
+        Topmost="True"
+        FocusManager.FocusedElement="{Binding ElementName=TitleTextBox}"                     
+        Title="{i18N:Translate RenamingTitle}" Height="130" Width="300" Style="{StaticResource XComponentDialog}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid Margin="0, 10, 0, 0">
+        <Grid.RowDefinitions>            
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Margin="5" Content="{i18N:Translate PanelNameLabel}" VerticalAlignment="Center"/>
+        <TextBox x:Name="TitleTextBox" Grid.Column="1" Grid.Row="0" Margin="5" Text="{Binding PanelTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Behaviors>
+                <behaviors:SelectOnFocusBehavior/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+
+            
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,8,0,0"  Orientation="Horizontal" HorizontalAlignment="Right" >            
+            <mui:ModernButton Margin="2" EllipseDiameter="20" IconHeight="12" IconWidth="12" IsDefault="True"
+                              Command="{Binding RenameCommand}" ToolTip="{i18N:Translate RenameTooltip}" IconData="{StaticResource ValidateGeometry}">                
+            </mui:ModernButton>
+
+
+            <mui:ModernButton Margin="2" EllipseDiameter="20" IconHeight="12" IconWidth="12" IsCancel="True"
+                              ToolTip="{i18N:Translate Cancel}" IconData="{StaticResource CancelGeometry}"/>
+        </StackPanel>        
+    </Grid>
+</syncfusion:ChromelessWindow>

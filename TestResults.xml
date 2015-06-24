@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Projects\xcomponent.ui\test\UI.Test\bin\release\XComponent.Common.UI.Test.dll" total="0" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-06-25" time="10:29:11">
+  <environment nunit-version="2.6.4.14350" clr-version="2.0.50727.8009" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Projects\xcomponent.ui" machine-name="NICOLASERNY0EBD" user="nicolaserny" user-domain="NICOLASERNY0EBD" />
+  <culture-info current-culture="en-GB" current-uiculture="en-GB" />
+  <test-suite type="Assembly" name="C:\Projects\xcomponent.ui\test\UI.Test\bin\release\XComponent.Common.UI.Test.dll" executed="True" result="Inconclusive" success="False" time="0.018" asserts="0" />
+</test-results>

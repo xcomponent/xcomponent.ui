@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <Color x:Key="XComponentActiveColor">#FF1B1B1C</Color>
+
+    <Color x:Key="XComponentIconColor">#FF0078CF</Color>
+    <Color x:Key="XComponentFontColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentXComponentSeparator">#FF46464A</Color>
+    <Color x:Key="XComponentHighlightColor">#FF3F3F46</Color>
+    <Color x:Key="XComponentSelectColor">#FF0078CF</Color>
+    <Color x:Key="XComponentGreyColor">#FFF1F1F1</Color>
+
+    <Color x:Key="XComponentTextboxColor">#FF333337</Color>
+    <Color x:Key="XComponentTextboxBorderColor">#FF46464A</Color>
+    <Color x:Key="XComponentWatermarkFontColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentInactiveTextboxColor">#FF242424</Color>
+    <Color x:Key="XComponentInactiveFontColor">#FF484848</Color>
+
+    <Color x:Key="XComponentRibbonBackgroundColor">#FF2D2D30</Color>
+    <Color x:Key="XComponentRibbonForegroundColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentBackgroundColor">#FF2D2D30</Color>
+    <Color x:Key="XComponentPanelBackgroundColor">#FF252526</Color>
+    <Color x:Key="XComponentIconColor1">#FF88E392</Color>
+    <Color x:Key="XComponentIconColor2">#FFFD9B25</Color>
+    <Color x:Key="XComponentIconColor3">#FF7AC1FF</Color>
+    <Color x:Key="UserIconColor">#FF9ACD32</Color>
+    <Color x:Key="PopupBackgroundColor">#FF1B1B1C</Color>
+
+    <Color x:Key="XComponentButtonColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentButtonHighlightColor">#FF0078CF</Color>
+
+    <Color x:Key="XComponentButtonBackgroundColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentButtonForegroundColor">#FF373737</Color>
+
+    <Color x:Key="XComponentScrollbarColor">#FF686868</Color>
+    <Color x:Key="XComponentScrollbarHoverColor">#FF9E9E9E</Color>
+    <Color x:Key="XComponentScrollbarDraggedColor">#FFEFEBEF</Color>
+
+    <Color x:Key="XComponentGridHeaderBackgroundColor">#FF373737</Color>
+    <Color x:Key="XComponentGridBackgroundColor">#FF414141</Color>
+    <Color x:Key="XComponentGridRowSelectBackgroundColor">#FF1E1E1E</Color>
+    <Color x:Key="XComponentGridCellSelectBackgroundColor">#FF0078CF</Color>
+    <Color x:Key="XComponentGridRowHoverBackgroundColor">#FF9E9E9E</Color>
+    <Color x:Key="XComponentGridAlternatingRowColor">#FF4B4B4B</Color>
+
+    <Color x:Key="XComponentTooltipBackgroundColor">#FF46464A</Color>
+    <Color x:Key="XComponentTooltipFontColor">#FFF1F1F1</Color>
+    <Color x:Key="XComponentTooltipBorderColor">#FF373737</Color>
+
+    <Color x:Key="XComponentTitleBarIconColor">#FFD1D1D1</Color>
+    <Color x:Key="XComponentTitleBarIconHoverColor">#FF252525</Color>
+    <Color x:Key="XComponentTitleBarIconBackgroundHoverColor">#FFD1D1D1</Color>
+    <Color x:Key="XComponentTitleBarIconBackgroundPressedColor">#FF9E9E9E</Color>
+
+    <system:String x:Key="XComponentResearchMaxColorString">#FF8A8A8A</system:String>
+    <system:String x:Key="XComponentResearchMinColorString">#FF373737</system:String>
+
+    <Color x:Key="SellButtonBaseColor">#CC4040</Color>
+    <Color x:Key="SellButtonPressedColor">#7A2626</Color>
+
+    <Color x:Key="BuyButtonBaseColor">#009933</Color>
+    <Color x:Key="BuyButtonPressedColor">#004C1A</Color>
+
+    <Color x:Key="XComponentErrorColor">#FFF38276</Color>
+    <Color x:Key="XComponentGreenStatusColor">#FF88E392</Color>
+    <Color x:Key="XComponentOrangeStatusColor">#FFFDBC25</Color>
+
+    <Color x:Key="XComponentDialogTitleBarColor">#FF2D2D30</Color>
+
+    <Color x:Key="XComponentDockingBackgroundColor">#FF333333</Color>
+    <Color x:Key="XComponentDockingHeaderColor">#FF595959</Color>
+
+    <Color x:Key="FloatingWindowsCloseForegroundColor">#FF999999</Color>
+    <Color x:Key="FloatingWindowsCloseMouseoverForegroundColor">#FFFFFFFF</Color>
+    <Color x:Key="FloatingWindowsCloseMouseoverBackgroundColor">#FF353535</Color>
+
+    <Color x:Key="FilterPopUpCloseForegroundColor">#FF999999</Color>
+    <Color x:Key="FilterPopUpCloseMouseoverForegroundColor">#FFFFFFFF</Color>
+    <Color x:Key="FilterPopUpCloseMouseoverBackgroundColor">#FF353535</Color>
+    <Color x:Key="FilterPopUpBorderColor">Gray</Color>
+    <Color x:Key="FilterPopUpResizingBorderColor">#FF373737</Color>
+
+    <Color x:Key="XComponentExcelLikeFilterBackgroundColor">#FF414141</Color>
+
+    <Color x:Key="InstrumentModifiedColor">#FFFFB375</Color>
+
+</ResourceDictionary>
