@@ -199,3 +199,4 @@ FakesAssemblies/
 *.dll
 *.exe
 generated/
+TestResults.xml

@@ -273,9 +273,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xcomponentui.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="XComponent.UI.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">

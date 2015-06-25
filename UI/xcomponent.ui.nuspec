@@ -8,7 +8,7 @@
     <summary>@summary@</summary>
     <licenseUrl>https://github.com/Invivoo-software/xcomponent.ui/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Invivoo-software/xcomponent.ui/</projectUrl>
-    <iconUrl>https://github.com/Invivoo-software/xcomponent.ui/blob/master/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/Invivoo-software/xcomponent.ui/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
