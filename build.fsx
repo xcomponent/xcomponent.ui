@@ -23,7 +23,7 @@ let tagsTestTools = ["xcomponent";"ui";"syncfusion";"nunit";"test"]
 
 let releaseConfig = "release"
 let debugConfig = "debug"
-let defaultVersion = "1.0.0-Z1"
+let defaultVersion = "1.0.0-build1"
 
 let uiNuspecFile = "./UI/XComponent.UI.nuspec"
 let testNuspecFile = "./UI.TestTools/XComponent.UI.TestTools.nuspec"
@@ -33,44 +33,47 @@ let libDir = nugetDir @@ @"lib\net45\"
 let checker = "./Tools/CSProjReferencesChecker.exe"
 let configuration = getBuildParamOrDefault "config" releaseConfig
 let version = getBuildParamOrDefault "version" defaultVersion
+let nugetExe = FullName @"./Tools/NuGet.exe"
 let timeoutExec = 20.0
 
 // helper functions
         
-let formatVersion (strVersion:string) =    
-    let regex = new Regex("/[ZDCG]/")
-    let typeVersion = Regex.Match(strVersion, "[ZDCG]").Value
+let formatAssemblyVersion (strVersion:string) =        
+    let typeVersionMatch = Regex.Match(strVersion, "build|rc")    
+    match typeVersionMatch.Success with
+    | true ->
+        let typeVersion = typeVersionMatch.Value
+        let splitVersion = strVersion.Split('-')   
     
-    let splitVersion = strVersion.Split('-')    
-    let majorVersion = splitVersion.[0]
-    let buildVersion = splitVersion.[1]        
-    let splitBuild = buildVersion.Split((typeVersion.[0])) 
-      
-    let extVersion = splitBuild.[1]
-    let finalExtVersion = 
-        match (Convert.ToInt32(extVersion)) with
-        | x when x < 10 ->
-            "000" + extVersion
-        | x when x < 100 ->
-            "0" + extVersion        
-        | x when x < 1000 ->            
-            "0" + extVersion         
-        | x when x > 60000 ->
-            "9"
-        | _ -> extVersion
-          
-    let finalTypeVersion = 
-        match (typeVersion) with
-        | "Z" -> "1"
-        | "D" -> "2"
-        | "C" -> "3"
-        | "G" -> "4"
-    majorVersion + "." + finalTypeVersion + finalExtVersion
+        let majorVersion = splitVersion.[0]        
+        let buildVersion = splitVersion.[1]                           
 
-let formattedVersion = formatVersion version
+        let extVersion = buildVersion.Substring(typeVersion.Length, buildVersion.Length - typeVersion.Length)
+        
+        let finalExtVersion = 
+            match (Convert.ToInt32(extVersion)) with
+            | x when x < 10 ->
+                "000" + extVersion
+            | x when x < 100 ->
+                "00" + extVersion        
+            | x when x < 1000 ->            
+                "0" + extVersion         
+            | x when x > 60000 ->
+                "9"
+            | _ -> extVersion
+          
+        let finalTypeVersion = 
+            match (typeVersion) with
+            | "build" -> "1"
+            | "rc" -> "2" 
+            | _ -> "3"           
+        majorVersion + "." + finalTypeVersion + finalExtVersion
+    | false -> strVersion + ".4" // specific release number
+
+let formattedAssemblyVersion = formatAssemblyVersion version
 
 let getMSBuildFn =
-    let properties = [("Configuration", configuration);("AssemblyCompany", company);("AssemblyCopyright", copyright); ("VersionNumber", formattedVersion)]
+    let properties = [("Configuration", configuration);("AssemblyCompany", company);("AssemblyCopyright", copyright); ("VersionNumber", formattedAssemblyVersion)]
     fun (outputPath:string) targets projects ->            
             MSBuild outputPath targets properties projects
 
@@ -164,7 +167,7 @@ Target "CreatePackage" (fun _ ->
                         Copyright = copyright
                         Project =  project
                         Properties = ["Configuration", configuration]                        
-                        Version = formattedVersion
+                        Version = version
                         Tags = packageTags |> String.concat " "
                         FrameworkAssemblies = getGacReferences csprojFile
                         OutputPath = outputDir
@@ -199,6 +202,34 @@ Target "CreatePackage" (fun _ ->
     -- ("./UI.TestTools/bin/" + configuration + "/*CodeAnalysisLog*.xml" )    
     |> package testNuspecFile "UI.TestTools/XComponent.UI.TestTools.csproj" descriptionTestTools tagsTestTools
 )
+
+Target "PublishPackage" (fun _ ->    
+    let publishNugetPackages _ = 
+        let rec publishPackage accessKey trialsLeft packageFile =
+            let tracing = enableProcessTracing
+            enableProcessTracing <- false
+            let args pack key = sprintf "push \"%s\" %s" pack key                
+
+            tracefn "Pushing %s Attempts left: %d" (FullName packageFile) trialsLeft
+            try 
+                let result = ExecProcess (fun info -> 
+                        info.FileName <- nugetExe
+                        info.WorkingDirectory <- (Path.GetDirectoryName (FullName packageFile))
+                        info.Arguments <- (args packageFile accessKey)) (System.TimeSpan.FromMinutes 1.0)
+                enableProcessTracing <- tracing
+                if result <> 0 then failwithf "Error during NuGet symbol push. %s %s" nugetExe (args packageFile accessKey)
+            with exn -> 
+                if (trialsLeft > 0) then (publishPackage accessKey (trialsLeft-1) packageFile)
+                else raise exn
+        printfn "Pushing nuget packages"
+        let normalPackages= 
+            !! (buildDir @@ "*.nupkg") 
+            |> Seq.sortBy(fun x -> x.ToLower())
+        for package in normalPackages do
+            publishPackage (getBuildParam "nugetkey") 3 package
+            
+    publishNugetPackages()
+)
   
 // Default target
 Target "Help" (fun _ ->
@@ -212,9 +243,10 @@ Target "Help" (fun _ ->
       "   config=<config>            build configuration: debug/release"      
       ""
       "   version=<version>          package version fased on xcomponent format"
-      "                              format: x.y.y-[Z-C-G]build_number"
-      "                              Z=dev / C=release candidate / G=release"
-      "                              default value: 1.0.0-Z1"
+      "                              dev and rc format: x.y.z-[build|rc]build_number"
+      "                              release format: x.y.z "
+      "                              default value: 1.0.0-dev1"
+      "                              example: 3.2.1-rc3"
       "compile, test and create nuget packages."      
       ""
       ""
@@ -224,7 +256,7 @@ Target "Help" (fun _ ->
       ""
       ""      
       "Examples:"
-      "  build All config=release version=1.2.0-G4"      
+      "  build All config=release version=1.2.0-rc4"      
       ""]
 )
 
@@ -238,6 +270,9 @@ Target "All" DoNothing
   ==> "RunTests"
   ==> "CreatePackage"
   ==> "All"
+
+"All"
+  ==> "PublishPackage"
 
 // start build
 RunTargetOrDefault "Help"
