@@ -16,6 +16,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using FirstFloor.ModernUI.Presentation;
+using NLog;
 using Syncfusion.Linq;
 using Syncfusion.Windows.Shared;
 using Syncfusion.Windows.Tools.Controls;
@@ -26,6 +27,8 @@ namespace XComponent.Common.UI.Docking
 {
     public class XCDocking : DockingManager
     {
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public static readonly DependencyProperty ApplicationNameProperty = DependencyProperty.Register(
             "ApplicationName", typeof(string), typeof(XCDocking), new PropertyMetadata(default(string)));
 
@@ -480,7 +483,13 @@ namespace XComponent.Common.UI.Docking
                 {
                     try
                     {
-                        var parameters = ((List<DockingParams>)defaultXmlSerializer.Deserialize(xmlTextReader)).Where(e => viewModelsParameters.Any(t => t.PanelName == e.Name)).ToList();
+                        var parameters = ((List<DockingParams>)defaultXmlSerializer.Deserialize(xmlTextReader));
+                        if (parameters.Any(e => viewModelsParameters.All(t => t.PanelName != e.Name)))
+                        {
+                            logger.Error("inconsistant layout - some viewmodels are missing !");
+                            parameters.Where(e => viewModelsParameters.All(t => t.PanelName != e.Name)).ForEach(msg => logger.Error(msg.Name + " viewModel is missing"));
+                            return;
+                        }                        
 
                         foreach (var dockingParams in parameters)
                         {
@@ -521,19 +530,24 @@ namespace XComponent.Common.UI.Docking
 
                                     this.ItemsSource.Add(viewModel);
                                 }
+                                else
+                                {
+                                    logger.Error("unexpected null view model: " + dockingParams.Name);
+                                    this.ItemsSource.Clear();
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                logger.Error("viewmodel builder is missing: " + viewModelParam.Type);
+                                this.ItemsSource.Clear();
+                                return;
                             }
                         }
 
-                        var stream = new MemoryStream();
-                        using (var reader = new XmlTextWriter(stream, Encoding.Default))
+                        using (var loadReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
                         {
-                            defaultXmlSerializer.Serialize(reader, parameters);
-                            reader.Flush();
-
-                            using (var loadReader = new XmlTextReader(new MemoryStream(stream.GetBuffer())))
-                            {
-                                this.LoadDockState(loadReader);
-                            }
+                            this.LoadDockState(loadReader);
                         }
                     }
                     catch (InvalidOperationException ex)
