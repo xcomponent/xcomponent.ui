@@ -153,7 +153,9 @@ Target "CreatePackage" (fun _ ->
         let getGacReferences (csprojFile:string) =
             let document = XDocument.Load (new StreamReader(csprojFile,true))
             document.Descendants()
-            |> Seq.filter(fun t -> t.Name.LocalName = "Reference" && ((t.Descendants() |> Seq.length) = 0))
+            |> Seq.filter(fun t -> t.Name.LocalName = "Reference")
+            |> Seq.filter(fun t -> not (t.Descendants() |> Seq.exists(fun r -> r.Name.LocalName = "HintPath")))
+            |> Seq.filter(fun t -> not(t.Descendants() |> Seq.exists(fun r -> r.Name.LocalName = "Private") || t.Descendants() |> Seq.exists(fun r -> r.Name.LocalName = "Private" && r.Value.ToLower() = "true" )))
             |> Seq.map(fun t -> { NugetFrameworkAssemblyReferences.FrameworkVersions  = ["net45"]; NugetFrameworkAssemblyReferences.AssemblyName = t.Attribute(XName.Get("Include")).Value})
             |> Seq.distinct
             |> Seq.toList
@@ -193,6 +195,7 @@ Target "CreatePackage" (fun _ ->
     ++ ("./UI/bin/"+ configuration + "/XComponent.*.pdb")
     ++ ("./UI/bin/"+ configuration + "/XComponent.*.xml")
     ++ ("./UI/bin/"+ configuration + "/*AcroPDFLib.dll")    
+    ++ ("./UI/bin/"+ configuration + "/Syncfusion*.dll")    
     -- ("./UI/bin/"+ configuration + "/*CodeAnalysisLog*.xml")
     |> package uiNuspecFile "UI/XComponent.Common.UI.csproj" description tags
     

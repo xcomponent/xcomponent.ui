@@ -60,21 +60,56 @@
       <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="Syncfusion.Compression.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Core, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4" />
-    <Reference Include="Syncfusion.Data.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Grid.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.GridCommon.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.GridConverter.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Linq.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfGrid.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfInput.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfShared.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Shared.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Compression.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Core, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.GridCommon.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.GridConverter.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Linq.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfInput.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfShared.WPF, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Tools.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.XlsIO.Base, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.XlsIO.Wpf, Version=13.1450.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
