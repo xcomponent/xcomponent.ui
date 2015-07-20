@@ -15,12 +15,17 @@ namespace XComponent.Common.UI.Grid.Behavior
     {
         protected override void OnAttached()
         {
-            AssociatedObject.Loaded += AssociatedObjectOnLoaded;
+            AssociatedObject.ModelLoaded += AssociatedObjectOnLoaded;
 
             base.OnAttached();
         }
 
-        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private void AssociatedObjectOnLoaded(object sender, EventArgs eventArgs)
+        {
+            AssociatedObject.Model.Initialized += ModelOnInitialized;
+        }
+
+        private void ModelOnInitialized(object sender, EventArgs eventArgs)
         {
             SubscribeToCollectionChanged();
 
@@ -68,7 +73,8 @@ namespace XComponent.Common.UI.Grid.Behavior
         {
             UnSubscribeFromCollectionChanged();
             AssociatedObject.ItemsSourceChanged -= OnItemsSourceChanged;
-            AssociatedObject.Loaded -= AssociatedObjectOnLoaded;
+            AssociatedObject.Model.Initialized -= ModelOnInitialized;
+            AssociatedObject.ModelLoaded -= AssociatedObjectOnLoaded;
 
             base.OnDetaching();
         }
