@@ -14,6 +14,7 @@ Main features:
 ### Requirements
 
 * Syncfusion: a community version is available ([https://www.syncfusion.com/products/communitylicense](https://www.syncfusion.com/products/communitylicense))
+* Acrobat reader: [https://get.adobe.com/uk/reader/](https://get.adobe.com/uk/reader/)
 
 ### Install XComponent.UI via NuGet
 
@@ -30,6 +31,9 @@ And if you need unit testing helpers:
 ```
 PM> Install-Package XComponent.UI.TestTools -Pre
 ```
+#### Builds
+
+Please see [Building XComponent UI](documentation/build.md).
 
 ### Contact us
 
