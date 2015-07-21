@@ -31,7 +31,7 @@ And if you need unit testing helpers:
 ```
 PM> Install-Package XComponent.UI.TestTools -Pre
 ```
-#### Builds
+### Builds
 
 Please see [Building XComponent UI](documentation/build.md).
 
