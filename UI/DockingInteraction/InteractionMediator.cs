@@ -35,7 +35,8 @@ namespace XComponent.Common.UI.DockingInteraction
                 return selectedPanel.HandleInteraction(interaction.Action, interaction.Parameters);
             }
 
-            if (interaction.InteractionPattern != InteractionPattern.MasterSlave)
+            // Check if we have to create a new participant. This is only done for enslave and peer to peer interactions
+            if (interaction.InteractionPattern == InteractionPattern.Enslave || interaction.InteractionPattern == InteractionPattern.PeerToPeer)
             {
                 foreach (IInteractionParticipantCreator participantCreator in _participantStore.GetParticipantCreators())
                 {
@@ -105,6 +106,15 @@ namespace XComponent.Common.UI.DockingInteraction
                         // this is a peer to peer interaction, the target is unique
                         break;
                     }
+                }
+                else if (interaction.InteractionPattern == InteractionPattern.Broadcast)
+                {
+                    if (interaction.Source.UniqueName != participant.Identity.UniqueName)
+                    {
+                        participant.HandleInteraction(interaction.Action, interaction.Parameters);
+                    }
+                    // always return true for broadcast interactions
+                    interactionSucceeded = true;
                 }
             }
 

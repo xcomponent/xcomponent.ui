@@ -6,5 +6,6 @@
         Enslave,
         PeerToPeer,
         SelectedParticipant,
+        Broadcast,
     }
 }
