@@ -63,5 +63,18 @@ namespace XComponent.Common.UI.DockingInteraction
             return mediator.RunInteraction(interaction);
         }
 
+        public static bool RunBroadcastInteraction<TParameter>(this IInteractionMediator mediator, ParticipantIdentity source, string action, IEnumerable<TParameter> parameters, IInteractionParameterSerializer<TParameter> serializer = null)
+            where TParameter : class, IInteractionParameter, new()        
+        {
+            if (serializer == null)
+            {
+                serializer = new DefaultInteractionParameterSerializer<TParameter>();
+            }
+
+            IEnumerable<Dictionary<string, object>> rawParameters = parameters.Select(serializer.Serialize).ToList();
+
+            var interaction = new Interaction(InteractionPattern.Broadcast, source, null, rawParameters, action);
+            return mediator.RunInteraction(interaction);
+        }
     }
 }
