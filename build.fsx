@@ -70,7 +70,34 @@ let formatAssemblyVersion (strVersion:string) =
         majorVersion + "." + finalTypeVersion + finalExtVersion
     | false -> strVersion + ".4" // specific release number
 
+let formatNugetVersion (strVersion:string) =        
+    let typeVersionMatch = Regex.Match(strVersion, "build|rc")    
+    match typeVersionMatch.Success with
+    | true ->
+        let typeVersion = typeVersionMatch.Value
+        let splitVersion = strVersion.Split('-')   
+    
+        let majorVersion = splitVersion.[0]        
+        let buildVersion = splitVersion.[1]                           
+
+        let extVersion = buildVersion.Substring(typeVersion.Length, buildVersion.Length - typeVersion.Length)
+        
+        let finalExtVersion = 
+            match (Convert.ToInt32(extVersion)) with
+            | x when x < 10 ->
+                "00" + extVersion
+            | x when x < 100 ->
+                "0" + extVersion        
+            | x when x > 1000 ->            
+                extVersion                     
+            | _ -> extVersion
+        
+        majorVersion + "-" + typeVersion + "-" + finalExtVersion
+    | false -> strVersion
+
 let formattedAssemblyVersion = formatAssemblyVersion version
+
+let formattedNugetVersion = formatNugetVersion  version
 
 let getMSBuildFn =
     let properties = [("Configuration", configuration);("AssemblyCompany", company);("AssemblyCopyright", copyright); ("VersionNumber", formattedAssemblyVersion)]
@@ -169,7 +196,7 @@ Target "CreatePackage" (fun _ ->
                         Copyright = copyright
                         Project =  project
                         Properties = ["Configuration", configuration]                        
-                        Version = version
+                        Version = formattedNugetVersion
                         Tags = packageTags |> String.concat " "
                         FrameworkAssemblies = getGacReferences csprojFile
                         OutputPath = outputDir
