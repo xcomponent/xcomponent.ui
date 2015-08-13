@@ -92,7 +92,7 @@ let formatNugetVersion (strVersion:string) =
                 extVersion                     
             | _ -> extVersion
         
-        majorVersion + "-" + typeVersion + "-" + finalExtVersion
+        majorVersion + "-" + typeVersion + "v" + finalExtVersion
     | false -> strVersion
 
 let formattedAssemblyVersion = formatAssemblyVersion version
