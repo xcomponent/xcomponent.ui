@@ -408,7 +408,7 @@ namespace XComponent.Common.UI.Docking
             this.SaveDockState(binaryFormatter, StorageFormat.Xml, Path.Combine(folderPath, LayoutFileName));
         }
 
-        public void LoadLayout(string folderPath, string oldFolderPath = "")
+        public void LoadLayout(string folderPath, string oldFolderPath = "", Stream defaultLayoutStream = null, Stream defaultModelStream = null)
         {
             var modelPath = Path.Combine(folderPath, ViewModelSaveFileName);
             var layoutPath = Path.Combine(folderPath, LayoutFileName);
@@ -436,17 +436,20 @@ namespace XComponent.Common.UI.Docking
                 }
             }
 
-            if (!File.Exists(modelPath) || !File.Exists(layoutPath) || this.PanelViewModelBuilders == null)
+            var isDefault = !File.Exists(modelPath) || !File.Exists(layoutPath) || this.PanelViewModelBuilders == null;
+
+            if (isDefault && (defaultModelStream == null || defaultLayoutStream == null))
+            {
                 return;
+            }
 
             XCDockingLayout dockingLayoutModel;
+            StreamReader readerModel = null;
             try
             {
-                var xmlSerializer = new XmlSerializer(typeof(XCDockingLayout));
-                using (var reader = new StreamReader(modelPath))
-                {
-                    dockingLayoutModel = xmlSerializer.Deserialize(reader) as XCDockingLayout;
-                }
+                var xmlSerializer = new XmlSerializer(typeof (XCDockingLayout));
+                readerModel = isDefault ? new StreamReader(defaultModelStream) : new StreamReader(modelPath);                                
+                dockingLayoutModel = xmlSerializer.Deserialize(readerModel) as XCDockingLayout;                
             }
             catch
             {
@@ -456,10 +459,15 @@ namespace XComponent.Common.UI.Docking
                 };
 
                 // Handle format in use before the layout versioning system
-                var xmlSerializer = new XmlSerializer(typeof(List<ViewModelSavedParameters>));
-                using (var reader = new StreamReader(modelPath))
+                var xmlSerializer = new XmlSerializer(typeof (List<ViewModelSavedParameters>));
+                if (readerModel == null) return;                
+                dockingLayoutModel.ViewModelSavedParameters = xmlSerializer.Deserialize(readerModel) as List<ViewModelSavedParameters>;                
+            }
+            finally
+            {
+                if (readerModel != null)
                 {
-                    dockingLayoutModel.ViewModelSavedParameters = xmlSerializer.Deserialize(reader) as List<ViewModelSavedParameters>;
+                    readerModel.Dispose();
                 }
             }
 
@@ -473,7 +481,19 @@ namespace XComponent.Common.UI.Docking
 
             this.isLayoutLoaded = false;
 
-            string dockingLayout = File.ReadAllText(Path.GetFullPath(layoutPath));
+            string dockingLayout;
+            if (isDefault)
+            {
+                using (var reader = new StreamReader(defaultLayoutStream))
+                {
+                    dockingLayout = reader.ReadToEnd();
+                }
+            }
+            else
+            {
+                dockingLayout = File.ReadAllText(Path.GetFullPath(layoutPath));
+            }
+
             string migratedDockingLayout = MigrateDockingLayout(dockingLayout, dockingLayoutModel.LayoutVersion);
             using (var xmlTextReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
             {
