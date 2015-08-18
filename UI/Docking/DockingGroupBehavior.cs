@@ -9,24 +9,26 @@ namespace XComponent.Common.UI.Docking
     {
         protected override void OnAttached()
         {
-            if (string.IsNullOrWhiteSpace(this.GroupName)) throw new ArgumentException("Missing argument", "GroupName");
-
-            if (this.DockSide == DockSide.Tabbed || this.DockSide == DockSide.None) throw new ArgumentException("Invalid value", "DockSide");
-
-            var groupElement = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, this.GroupName);
-
-            if (groupElement == null)
+            if (!XCDocking.IsLoadingLayout)
             {
-                this.AssociatedObject.Name = this.GroupName;
-                DockingManager.SetState(this.AssociatedObject, DockState.Dock);
-                DockingManager.SetSideInDockedMode(this.AssociatedObject, this.DockSide);
-            }
-            else
-            {
-                DockingManager.SetSideInDockedMode(this.AssociatedObject, DockSide.Tabbed);
-                DockingManager.SetTargetNameInDockedMode(this.AssociatedObject, this.GroupName);
-            }
+                if (string.IsNullOrWhiteSpace(this.GroupName)) throw new ArgumentException("Missing argument", "GroupName");
 
+                if (this.DockSide == DockSide.Tabbed || this.DockSide == DockSide.None) throw new ArgumentException("Invalid value", "DockSide");
+
+                var groupElement = LogicalTreeHelper.FindLogicalNode(Application.Current.MainWindow, this.GroupName);
+
+                if (groupElement == null)
+                {
+                    this.AssociatedObject.Name = this.GroupName;
+                    DockingManager.SetState(this.AssociatedObject, DockState.Dock);
+                    DockingManager.SetSideInDockedMode(this.AssociatedObject, this.DockSide);
+                }
+                else
+                {
+                    DockingManager.SetSideInDockedMode(this.AssociatedObject, DockSide.Tabbed);
+                    DockingManager.SetTargetNameInDockedMode(this.AssociatedObject, this.GroupName);
+                }
+            }
             base.OnAttached();
         }        
 

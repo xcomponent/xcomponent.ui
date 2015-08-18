@@ -41,6 +41,8 @@ namespace XComponent.Common.UI.Docking
         public static readonly int DefaultLayoutVersion = 0;
         public static readonly int CurrentLayoutVersion = 3;
 
+        public static bool IsLoadingLayout = false;
+
         static public readonly string ViewModelSaveFileName = "docking_models.xml";
         static public readonly string LayoutFileName = "docking_layout.xml";
         private bool isLayoutLoaded = true;
@@ -410,177 +412,185 @@ namespace XComponent.Common.UI.Docking
 
         public void LoadLayout(string folderPath, string oldFolderPath = "", Stream defaultLayoutStream = null, Stream defaultModelStream = null)
         {
-            var modelPath = Path.Combine(folderPath, ViewModelSaveFileName);
-            var layoutPath = Path.Combine(folderPath, LayoutFileName);
-
-            if (!string.IsNullOrEmpty(oldFolderPath))
-            {
-                if (!File.Exists(modelPath))
-                {
-                    var oldModelPath = Path.Combine(oldFolderPath, ViewModelSaveFileName);
-
-                    if (File.Exists(oldModelPath))
-                    {
-                        File.Copy(oldModelPath, modelPath);
-                    }
-                }
-
-                if (!File.Exists(layoutPath))
-                {
-                    var oldLayoutPath = Path.Combine(oldFolderPath, LayoutFileName);
-
-                    if (File.Exists(oldLayoutPath))
-                    {
-                        File.Copy(oldLayoutPath, layoutPath);
-                    }
-                }
-            }
-
-            var isDefault = !File.Exists(modelPath) || !File.Exists(layoutPath) || this.PanelViewModelBuilders == null;
-
-            if (isDefault && (defaultModelStream == null || defaultLayoutStream == null))
-            {
-                return;
-            }
-
-            XCDockingLayout dockingLayoutModel;
-            StreamReader readerModel = null;
+            IsLoadingLayout = true;
             try
             {
-                var xmlSerializer = new XmlSerializer(typeof (XCDockingLayout));
-                readerModel = isDefault ? new StreamReader(defaultModelStream) : new StreamReader(modelPath);                                
-                dockingLayoutModel = xmlSerializer.Deserialize(readerModel) as XCDockingLayout;                
-            }
-            catch
-            {
-                dockingLayoutModel = new XCDockingLayout
+                var modelPath = Path.Combine(folderPath, ViewModelSaveFileName);
+                var layoutPath = Path.Combine(folderPath, LayoutFileName);
+
+                if (!string.IsNullOrEmpty(oldFolderPath))
                 {
-                    LayoutVersion = DefaultLayoutVersion,
-                };
-
-                // Handle format in use before the layout versioning system
-                var xmlSerializer = new XmlSerializer(typeof (List<ViewModelSavedParameters>));
-                if (readerModel == null) return;                
-                dockingLayoutModel.ViewModelSavedParameters = xmlSerializer.Deserialize(readerModel) as List<ViewModelSavedParameters>;                
-            }
-            finally
-            {
-                if (readerModel != null)
-                {
-                    readerModel.Dispose();
-                }
-            }
-
-            List<ViewModelSavedParameters> viewModelsParameters = dockingLayoutModel.ViewModelSavedParameters;
-            if (viewModelsParameters == null
-                || viewModelsParameters.Count == 0
-                || (viewModelsParameters.Count(e => this.PanelViewModelBuilders.ContainsKey(e.Type)) == 0))
-                return;
-
-            this.ItemsSource.Clear();
-
-            this.isLayoutLoaded = false;
-
-            string dockingLayout;
-            if (isDefault)
-            {
-                using (var reader = new StreamReader(defaultLayoutStream))
-                {
-                    dockingLayout = reader.ReadToEnd();
-                }
-            }
-            else
-            {
-                dockingLayout = File.ReadAllText(Path.GetFullPath(layoutPath));
-            }
-
-            string migratedDockingLayout = MigrateDockingLayout(dockingLayout, dockingLayoutModel.LayoutVersion);
-            using (var xmlTextReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
-            {
-                var defaultXmlSerializer = CreateDefaultXmlSerializer(typeof(List<DockingParams>));
-
-                if (defaultXmlSerializer.CanDeserialize(xmlTextReader))
-                {
-                    try
+                    if (!File.Exists(modelPath))
                     {
-                        var parameters = ((List<DockingParams>)defaultXmlSerializer.Deserialize(xmlTextReader));
-                        if (parameters.Any(e => viewModelsParameters.All(t => t.PanelName != e.Name)))
-                        {
-                            logger.Error("inconsistant layout - some viewmodels are missing !");
-                            parameters.Where(e => viewModelsParameters.All(t => t.PanelName != e.Name)).ForEach(msg => logger.Error(msg.Name + " viewModel is missing"));
-                            return;
-                        }                        
+                        var oldModelPath = Path.Combine(oldFolderPath, ViewModelSaveFileName);
 
-                        foreach (var dockingParams in parameters)
+                        if (File.Exists(oldModelPath))
                         {
-                            var viewModelParam = viewModelsParameters.First(e => e.PanelName == dockingParams.Name);
-                            if (this.PanelViewModelBuilders.ContainsKey(viewModelParam.Type))
+                            File.Copy(oldModelPath, modelPath);
+                        }
+                    }
+
+                    if (!File.Exists(layoutPath))
+                    {
+                        var oldLayoutPath = Path.Combine(oldFolderPath, LayoutFileName);
+
+                        if (File.Exists(oldLayoutPath))
+                        {
+                            File.Copy(oldLayoutPath, layoutPath);
+                        }
+                    }
+                }
+
+                var isDefault = !File.Exists(modelPath) || !File.Exists(layoutPath) || this.PanelViewModelBuilders == null;
+
+                if (isDefault && (defaultModelStream == null || defaultLayoutStream == null))
+                {
+                    return;
+                }
+
+                XCDockingLayout dockingLayoutModel;
+                StreamReader readerModel = null;
+                try
+                {
+                    var xmlSerializer = new XmlSerializer(typeof (XCDockingLayout));
+                    readerModel = isDefault ? new StreamReader(defaultModelStream) : new StreamReader(modelPath);
+                    dockingLayoutModel = xmlSerializer.Deserialize(readerModel) as XCDockingLayout;
+                }
+                catch
+                {
+                    dockingLayoutModel = new XCDockingLayout
+                    {
+                        LayoutVersion = DefaultLayoutVersion,
+                    };
+
+                    // Handle format in use before the layout versioning system
+                    var xmlSerializer = new XmlSerializer(typeof (List<ViewModelSavedParameters>));
+                    if (readerModel == null) return;
+                    dockingLayoutModel.ViewModelSavedParameters = xmlSerializer.Deserialize(readerModel) as List<ViewModelSavedParameters>;
+                }
+                finally
+                {
+                    if (readerModel != null)
+                    {
+                        readerModel.Dispose();
+                    }
+                }
+
+                List<ViewModelSavedParameters> viewModelsParameters = dockingLayoutModel.ViewModelSavedParameters;
+                if (viewModelsParameters == null
+                    || viewModelsParameters.Count == 0
+                    || (viewModelsParameters.Count(e => this.PanelViewModelBuilders.ContainsKey(e.Type)) == 0))
+                    return;
+
+                this.ItemsSource.Clear();
+
+                this.isLayoutLoaded = false;
+
+                string dockingLayout;
+                if (isDefault)
+                {
+                    using (var reader = new StreamReader(defaultLayoutStream))
+                    {
+                        dockingLayout = reader.ReadToEnd();
+                    }
+                }
+                else
+                {
+                    dockingLayout = File.ReadAllText(Path.GetFullPath(layoutPath));
+                }
+
+                string migratedDockingLayout = MigrateDockingLayout(dockingLayout, dockingLayoutModel.LayoutVersion);
+                using (var xmlTextReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
+                {
+                    var defaultXmlSerializer = CreateDefaultXmlSerializer(typeof (List<DockingParams>));
+
+                    if (defaultXmlSerializer.CanDeserialize(xmlTextReader))
+                    {
+                        try
+                        {
+                            var parameters = ((List<DockingParams>) defaultXmlSerializer.Deserialize(xmlTextReader));
+                            if (parameters.Any(e => viewModelsParameters.All(t => t.PanelName != e.Name)))
                             {
-                                object viewModel;
+                                logger.Error("inconsistant layout - some viewmodels are missing !");
+                                parameters.Where(e => viewModelsParameters.All(t => t.PanelName != e.Name)).ForEach(msg => logger.Error(msg.Name + " viewModel is missing"));
+                                return;
+                            }
 
-                                IDockingPanelViewModelBuilder viewModelBuilder = this.PanelViewModelBuilders[viewModelParam.Type];
-                                int layoutVersion = viewModelParam.LayoutVersion;
-                                string migratedParameters = viewModelBuilder.MigrateParameters(viewModelParam.CustomParametersStr, layoutVersion);
-                                using (var reader = new StringReader(migratedParameters))
+                            foreach (var dockingParams in parameters)
+                            {
+                                var viewModelParam = viewModelsParameters.First(e => e.PanelName == dockingParams.Name);
+                                if (this.PanelViewModelBuilders.ContainsKey(viewModelParam.Type))
                                 {
-                                    viewModel = viewModelBuilder.CreateViewModel(reader);
-                                    var dockingPanelTitle = viewModel as IDockingPanelTitle;
-                                    if (dockingPanelTitle != null && !string.IsNullOrWhiteSpace(viewModelParam.PanelTitle))
-                                    {
-                                        dockingPanelTitle.PanelTitle = viewModelParam.PanelTitle;
-                                    }
-                                }
+                                    object viewModel;
 
-                                if (viewModel != null)
-                                {
-                                    var selectedDataTemplate = this.DataTemplateSelector.SelectTemplate(viewModel, this);
-                                    selectedDataTemplate.Do(d =>
+                                    IDockingPanelViewModelBuilder viewModelBuilder = this.PanelViewModelBuilders[viewModelParam.Type];
+                                    int layoutVersion = viewModelParam.LayoutVersion;
+                                    string migratedParameters = viewModelBuilder.MigrateParameters(viewModelParam.CustomParametersStr, layoutVersion);
+                                    using (var reader = new StringReader(migratedParameters))
                                     {
-                                        var newFrameworkElement = d.LoadContent() as FrameworkElement;
-                                        newFrameworkElement.Do(element =>
+                                        viewModel = viewModelBuilder.CreateViewModel(reader);
+                                        var dockingPanelTitle = viewModel as IDockingPanelTitle;
+                                        if (dockingPanelTitle != null && !string.IsNullOrWhiteSpace(viewModelParam.PanelTitle))
                                         {
-                                            element.DataContext = viewModel;
-                                            element.Name = dockingParams.Name;
+                                            dockingPanelTitle.PanelTitle = viewModelParam.PanelTitle;
+                                        }
+                                    }
+
+                                    if (viewModel != null)
+                                    {
+                                        var selectedDataTemplate = this.DataTemplateSelector.SelectTemplate(viewModel, this);
+                                        selectedDataTemplate.Do(d =>
+                                        {
+                                            var newFrameworkElement = d.LoadContent() as FrameworkElement;
+                                            newFrameworkElement.Do(element =>
+                                            {
+                                                element.DataContext = viewModel;
+                                                element.Name = dockingParams.Name;
+                                            });
+                                            
+                                            newFrameworkElement.Loaded += NewFrameworkElementOnLoaded;
+                                            UpdatePanelContextMenu(newFrameworkElement);
+                                            this.Children.Add(newFrameworkElement);
                                         });
 
-                                        newFrameworkElement.Loaded += NewFrameworkElementOnLoaded;
-                                        UpdatePanelContextMenu(newFrameworkElement);
-                                        this.Children.Add(newFrameworkElement);
-                                    });
-
-                                    this.ItemsSource.Add(viewModel);
+                                        this.ItemsSource.Add(viewModel);
+                                    }
+                                    else
+                                    {
+                                        logger.Error("unexpected null view model: " + dockingParams.Name);
+                                        this.ItemsSource.Clear();
+                                        return;
+                                    }
                                 }
                                 else
                                 {
-                                    logger.Error("unexpected null view model: " + dockingParams.Name);
+                                    logger.Error("viewmodel builder is missing: " + viewModelParam.Type);
                                     this.ItemsSource.Clear();
                                     return;
                                 }
                             }
-                            else
+
+                            using (var loadReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
                             {
-                                logger.Error("viewmodel builder is missing: " + viewModelParam.Type);
-                                this.ItemsSource.Clear();
-                                return;
+                                this.LoadDockState(loadReader);
                             }
                         }
-
-                        using (var loadReader = new XmlTextReader(new StringReader(migratedDockingLayout)))
+                        catch (InvalidOperationException ex)
                         {
-                            this.LoadDockState(loadReader);
+                            if (ex.InnerException is XmlException)
+                                throw ex.InnerException;
+                            throw;
+                        }
+                        finally
+                        {
+                            this.isLayoutLoaded = true;
                         }
                     }
-                    catch (InvalidOperationException ex)
-                    {
-                        if (ex.InnerException is XmlException)
-                            throw ex.InnerException;
-                        throw;
-                    }
-                    finally
-                    {
-                        this.isLayoutLoaded = true;
-                    }
                 }
+            }
+            finally
+            {
+                IsLoadingLayout = false;
             }
         }
 
