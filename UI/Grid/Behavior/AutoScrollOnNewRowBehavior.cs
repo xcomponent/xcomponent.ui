@@ -13,24 +13,30 @@ namespace XComponent.Common.UI.Grid.Behavior
 {
     public class AutoScrollOnNewRowBehavior : Behavior<GridDataControl>
     {
+        private bool _isBehaviorHooked;
+
         protected override void OnAttached()
         {
-            AssociatedObject.ModelLoaded += AssociatedObjectOnLoaded;
+            AssociatedObject.ModelLoaded += AssociatedObjectOnModelLoaded;
 
             base.OnAttached();
         }
 
-        private void AssociatedObjectOnLoaded(object sender, EventArgs eventArgs)
+        private void AssociatedObjectOnModelLoaded(object sender, EventArgs eventArgs)
         {
-            AssociatedObject.Model.Initialized += ModelOnInitialized;
+            if (!_isBehaviorHooked && !AssociatedObject.Model.IsInitialized)
+            {
+                AssociatedObject.Model.Initialized += ModelOnInitialized;
+            }
+            else if (!_isBehaviorHooked)
+            {
+                HookBehavior();
+            }
         }
 
         private void ModelOnInitialized(object sender, EventArgs eventArgs)
         {
-            SubscribeToCollectionChanged();
-
-            // We need to re-subscribe to the event in case the source collection changed..
-            AssociatedObject.ItemsSourceChanged += OnItemsSourceChanged;
+            HookBehavior();
         }
 
         private void ViewOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -69,12 +75,22 @@ namespace XComponent.Common.UI.Grid.Behavior
             AssociatedObject.Model.View.CollectionChanged -= ViewOnCollectionChanged;
         }
 
+        private void HookBehavior()
+        {
+            SubscribeToCollectionChanged();
+
+            // We need to re-subscribe to the event in case the source collection changed..
+            AssociatedObject.ItemsSourceChanged += OnItemsSourceChanged;
+
+            _isBehaviorHooked = true;
+        }
+
         protected override void OnDetaching()
         {
             UnSubscribeFromCollectionChanged();
             AssociatedObject.ItemsSourceChanged -= OnItemsSourceChanged;
             AssociatedObject.Model.Initialized -= ModelOnInitialized;
-            AssociatedObject.ModelLoaded -= AssociatedObjectOnLoaded;
+            AssociatedObject.ModelLoaded -= AssociatedObjectOnModelLoaded;
 
             base.OnDetaching();
         }
