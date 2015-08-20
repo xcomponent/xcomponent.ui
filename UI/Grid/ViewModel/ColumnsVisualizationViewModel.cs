@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Syncfusion.Data.Extensions;
 using XComponent.Common.UI.Converter;
 using XComponent.Common.UI.Wpf;
 
@@ -70,6 +71,31 @@ namespace XComponent.Common.UI.Grid.ViewModel
                 multibinding.Bindings.Add(binding);
             }
             BindingOperations.SetBinding(this, AllColumnsVisibleProperty, multibinding);
+        }
+
+        // edtails key = display name / value = mapping name
+        public void UpdateDisplayNames(Dictionary<string, string> details)
+        {
+            // key = old display name / value = new display name
+            var displayNameToUpdateDictionary = new Dictionary<string, string>();
+
+            // detection wrong display name
+            columnsViewModel.ForEach(e =>
+            {
+                if (!details.ContainsKey(e.Key))
+                {
+                    details.Where(el => el.Value == e.Value.MappingName).ForEach(t => displayNameToUpdateDictionary.Add(e.Key, t.Key));
+                }
+            });
+
+            // updating display names in columnsViewModel dictionary
+            displayNameToUpdateDictionary.ForEach(e =>
+            {
+                var viewModel = columnsViewModel[e.Key];
+                columnsViewModel.Remove(e.Key);
+                viewModel.DisplayName = e.Value;
+                AddColumn(e.Value, viewModel);
+            });
         }
     }
 }

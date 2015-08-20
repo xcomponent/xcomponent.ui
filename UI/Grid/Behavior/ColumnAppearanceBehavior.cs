@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interactivity;
+using Syncfusion.Linq;
 using Syncfusion.Windows.Controls.Grid;
 using XComponent.Common.UI.Grid.Converter;
 using XComponent.Common.UI.Grid.ViewModel;
@@ -68,6 +69,11 @@ namespace XComponent.Common.UI.Grid.Behavior
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
             if (ColumnsVisualization == null)
                 return;
+
+            // update display (in case of renaming) 
+            var mappingDictionary = new Dictionary<string, string>();
+            _gridVisibleColumns.ForEach(el => mappingDictionary.Add(el.HeaderText, el.MappingName));
+            ColumnsVisualization.UpdateDisplayNames(mappingDictionary);
 
             Binding exclusionBinding = new Binding();
             exclusionBinding.Source = this;

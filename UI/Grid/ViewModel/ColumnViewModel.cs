@@ -13,7 +13,7 @@ namespace XComponent.Common.UI.Grid.ViewModel
         private static readonly DependencyProperty IsHiddenProperty = DependencyProperty.Register("IsHidden", typeof(bool), typeof(ColumnViewModel));
         
         private readonly string mappingName;
-        private readonly string displayName;
+        private string displayName;
 
         static ColumnViewModel()
         {
@@ -36,7 +36,7 @@ namespace XComponent.Common.UI.Grid.ViewModel
 
         public string MappingName { get { return this.mappingName; } }
 
-        public string DisplayName { get { return this.displayName; } }
+        public string DisplayName { get { return this.displayName; } set { this.displayName = value; } }
 
         public double Width
         {
