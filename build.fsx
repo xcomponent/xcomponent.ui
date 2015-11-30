@@ -14,8 +14,8 @@ open System.Xml.Linq
 // parameters and constants definition
 let product = "xcomponent.ui"
 let authors = [ "xcomponent team" ]
-let copyright = "Copyright INVIVOO Software"
-let company = "INVIVOO Software"
+let copyright = "Copyright XComponent"
+let company = "XComponent"
 let description = "UI shared library based on syncfusion"
 let tags = ["xcomponent";"ui";"syncfusion"]
 let descriptionTestTools = "nunit helpers"

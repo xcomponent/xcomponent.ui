@@ -6,13 +6,13 @@
     <authors>@authors@</authors>
     <owners>@authors@</owners>
     <summary>@summary@</summary>
-    <licenseUrl>https://github.com/Invivoo-software/xcomponent.ui/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/Invivoo-software/xcomponent.ui/</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/Invivoo-software/xcomponent.ui/master/logo.png</iconUrl>
+    <licenseUrl>https://github.com/xcomponent/xcomponent.ui/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/xcomponent/xcomponent.ui/</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/xcomponent/xcomponent.ui/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
-    <copyright>Copyright INVIVOO Software</copyright>
+    <copyright>Copyright XComponent</copyright>
     <tags>xcomponent</tags>
     @dependencies@
     @frameworkAssemblies@
