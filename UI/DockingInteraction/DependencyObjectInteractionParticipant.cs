@@ -100,21 +100,22 @@ namespace XComponent.Common.UI.DockingInteraction
 
         protected virtual void RebuildMenuItemList(IEnumerable<FrameworkElement> standardMenuItems)
         {
-            MenuItems.Clear();
-
+            var menuItems = new ObservableCollection<FrameworkElement>();
             foreach (FrameworkElement standardMenuItem in standardMenuItems)
             {
                 if (standardMenuItem != null)
                 {
-                    MenuItems.Add(standardMenuItem);
+                    menuItems.Add(standardMenuItem);
                 }
             }
 
             IEnumerable<FrameworkElement> specificMenuItems = CreateSpecificMenuItems();
             foreach (FrameworkElement specificMenuItem in specificMenuItems)
             {
-                MenuItems.Add(specificMenuItem);
+                menuItems.Add(specificMenuItem);
             }
+
+            MenuItems = menuItems;
         }
 
         protected virtual IEnumerable<FrameworkElement> CreateSpecificMenuItems()
