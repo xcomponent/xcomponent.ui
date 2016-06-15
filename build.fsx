@@ -238,7 +238,7 @@ Target "PublishPackage" (fun _ ->
         let rec publishPackage accessKey trialsLeft packageFile =
             let tracing = enableProcessTracing
             enableProcessTracing <- false
-            let args pack key = sprintf "push \"%s\" %s" pack key                
+            let args pack key = sprintf "push -Source https://www.nuget.org/api/v2/package \"%s\" %s" pack key                
 
             tracefn "Pushing %s Attempts left: %d" (FullName packageFile) trialsLeft
             try 
