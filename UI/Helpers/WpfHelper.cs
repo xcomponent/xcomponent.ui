@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
@@ -124,6 +125,43 @@ namespace XComponent.Common.UI.Helpers
             //If we have no description attribute, just return the ToString of the enum
             return enumerationValue.ToString();
 
+        }
+
+        public static void NotifyPropertyChanged<TProperty>(this INotifyPropertyChanged sender, PropertyChangedEventHandler handler, Expression<Func<TProperty>> property)
+        {
+            if (handler != null)
+            {
+                try
+                {
+                    string propertyName = PropertyName(property);
+                    if (propertyName != null)
+                    {
+                        handler(sender, new PropertyChangedEventArgs(propertyName));
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        public static string PropertyName<TProperty>(Expression<Func<TProperty>> property)
+        {
+            var lambda = (LambdaExpression)property;
+
+            MemberExpression memberExpression;
+            if (lambda.Body is UnaryExpression)
+            {
+                var unaryExpression = (UnaryExpression)lambda.Body;
+                memberExpression = (MemberExpression)unaryExpression.Operand;
+            }
+            else
+            {
+                memberExpression = (MemberExpression)lambda.Body;
+            }
+
+            return memberExpression.Member.Name;
         }
     }
 }
