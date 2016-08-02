@@ -139,7 +139,7 @@ namespace XComponent.Common.UI.Helpers
                         handler(sender, new PropertyChangedEventArgs(propertyName));
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }
