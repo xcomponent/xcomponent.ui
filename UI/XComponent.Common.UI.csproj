@@ -190,15 +190,6 @@
       <DependentUpon>XCMessageBox.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pdf\PdfViewer.xaml.cs">
-      <DependentUpon>PdfViewer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pdf\WinFormPdfHost.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pdf\WinFormPdfHost.Designer.cs">
-      <DependentUpon>WinFormPdfHost.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -222,9 +213,6 @@
     <Compile Include="Wpf\XCPropertyDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pdf\WinFormPdfHost.resx">
-      <DependentUpon>WinFormPdfHost.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.en.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -246,10 +234,6 @@
     <Page Include="MessageBox\XCMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pdf\PdfViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Resource Include="Themes\Generic\AutoCompleteSearchTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -283,25 +267,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="AcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="AxAcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
