@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace XComponent.Common.UI.Pdf
 {
@@ -15,9 +16,16 @@ namespace XComponent.Common.UI.Pdf
         {
             if (path != null)
             {
-                axAcroPDF1.LoadFile(path);
-                axAcroPDF1.src = path;
-                axAcroPDF1.setViewScroll("FitH", 0);
+                try
+                {
+                    axAcroPDF1.LoadFile(path);
+                    axAcroPDF1.src = path;
+                    axAcroPDF1.setViewScroll("FitH", 0);
+                }
+                catch (Exception e)
+                {
+                    System.Windows.Forms.MessageBox.Show(e.ToString());
+                }
             }
         }
 
