@@ -67,12 +67,14 @@ namespace XComponent.Common.UI.Grid.Behavior
 
         private void SubscribeToCollectionChanged()
         {
-            AssociatedObject.Model.View.CollectionChanged += ViewOnCollectionChanged;
+            if (AssociatedObject.Model.View != null)
+                AssociatedObject.Model.View.CollectionChanged += ViewOnCollectionChanged;
         }
 
         private void UnSubscribeFromCollectionChanged()
         {
-            AssociatedObject.Model.View.CollectionChanged -= ViewOnCollectionChanged;
+            if (AssociatedObject.Model.View != null)
+                 AssociatedObject.Model.View.CollectionChanged -= ViewOnCollectionChanged;
         }
 
         private void HookBehavior()
