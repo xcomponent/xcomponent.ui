@@ -13,7 +13,17 @@ namespace XComponent.Common.UI.Pdf
         public PdfViewer()
         {
             InitializeComponent();
-            winFormPdfHost = pdfHost.Child as WinFormPdfHost;
+
+            try
+            {
+                winFormPdfHost = new WinFormPdfHost();
+                pdfHost.Child = winFormPdfHost;
+            }
+            catch (Exception)
+            {
+                
+               
+            }
         }
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
@@ -37,7 +47,10 @@ namespace XComponent.Common.UI.Pdf
             set
             {
                 showToolBar = value;
-                winFormPdfHost.SetShowToolBar(showToolBar);
+                if (winFormPdfHost != null)
+                {
+                    winFormPdfHost.SetShowToolBar(showToolBar);                    
+                }
             }
         }
 

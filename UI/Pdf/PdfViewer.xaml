@@ -8,9 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <WindowsFormsHost x:Name="pdfHost">
-            <pdf:WinFormPdfHost>
-                
-            </pdf:WinFormPdfHost>
+          
         </WindowsFormsHost>
     </Grid>
 </UserControl>

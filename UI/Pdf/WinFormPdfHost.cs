@@ -8,13 +8,20 @@ namespace XComponent.Common.UI.Pdf
         public WinFormPdfHost()
         {
             InitializeComponent();
-            if(!DesignMode)
-            axAcroPDF1.setShowToolbar(true);
+            if (!DesignMode)
+                try
+                {
+                    axAcroPDF1.setShowToolbar(true);
+                }
+                catch (Exception e)
+                {
+                 //   System.Windows.Forms.MessageBox.Show(e.ToString());
+                }
         }
 
         public void LoadFile(string path)
         {
-            if (path != null)
+            if (path != null && axAcroPDF1 != null)
             {
                 try
                 {
