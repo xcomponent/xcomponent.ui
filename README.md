@@ -1,6 +1,7 @@
 # XComponent UI
 
 [![](http://slack.xcomponent.com/badge.svg)](http://slack.xcomponent.com/)
+[![NuGet](https://img.shields.io/nuget/v/XComponent.UI.svg)](https://www.nuget.org/packages/XComponent.UI)
 
 ![XC logo](documentation/icons/logo_normal.png)
 
