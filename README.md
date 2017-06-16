@@ -1,5 +1,7 @@
 # XComponent UI
 
+[![](http://slack.xcomponent.com/badge.svg)](http://slack.xcomponent.com/)
+
 ![XC logo](documentation/icons/logo_normal.png)
 
 **XComponent UI** is a shared UI library based on syncfusion ([http://www.syncfusion.com](http://www.syncfusion.com))
