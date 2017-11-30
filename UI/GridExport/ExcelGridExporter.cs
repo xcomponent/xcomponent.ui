@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Globalization;
 using Syncfusion.Windows.Controls.Grid;
 using Syncfusion.Windows.Controls.Grid.Converter;
+using Syncfusion.Windows.Shared;
 using Syncfusion.XlsIO;
 
 namespace XComponent.Common.UI.GridExport
@@ -19,14 +17,27 @@ namespace XComponent.Common.UI.GridExport
             _excelVersion = excelVersion;
         }
 
-        public void ExportGrid(GridDataControl grid, string filePath)
+        public void ExportGrid(GridDataControl grid, string filePath, string dateTimeFormat = "")
         {
             if (grid == null)
             {
                 return;
             }
 
-            grid.ExportToExcel(filePath, _excelVersion);
+            if (!string.IsNullOrEmpty(dateTimeFormat))
+            {
+                var syncfusionDateFormat = dateTimeFormat.Replace('f', '0');
+
+                grid.ExportToExcel(filePath, _excelVersion, (sender, args) =>
+                {
+                    args.Style.DateTimeEdit.DateTimePattern = DateTimePattern.CustomPattern;
+                    args.Style.DateTimeEdit.CustomPattern = syncfusionDateFormat;
+                });
+            }
+            else
+            {
+                grid.ExportToExcel(filePath, _excelVersion);
+            }
         }
     }
 }

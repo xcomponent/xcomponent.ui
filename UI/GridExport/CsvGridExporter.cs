@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +19,7 @@ namespace XComponent.Common.UI.GridExport
             _delimiter = delimiter;
         }
 
-        public void ExportGrid(GridDataControl grid, string filePath)
+        public void ExportGrid(GridDataControl grid, string filePath, string dateTimeFormat = "")
         {
             if (!string.IsNullOrEmpty(filePath))
             {
@@ -73,7 +74,14 @@ namespace XComponent.Common.UI.GridExport
 
                         if (value != null)
                         {
-                            propertyValue = value.ToString();
+                            if (value is DateTime && !string.IsNullOrEmpty(dateTimeFormat))
+                            {
+                                propertyValue = ((DateTime)value).ToString(dateTimeFormat);
+                            }
+                            else
+                            {
+                                propertyValue = value.ToString();
+                            }
                         }
 
                         itemLineBuilder.Append(propertyValue + _delimiter);

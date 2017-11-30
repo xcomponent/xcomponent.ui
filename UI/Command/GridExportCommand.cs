@@ -54,7 +54,9 @@ namespace XComponent.Common.UI.Command
 
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
-                    new GridExporterFactory().CreateGridExporter(fileType).ExportGrid(dataGrid, saveFileDialog.FileName);
+                    var dateTimeFormat = args.Parameter as string;
+
+                    new GridExporterFactory().CreateGridExporter(fileType).ExportGrid(dataGrid, saveFileDialog.FileName, dateTimeFormat);
 
                     //Message box confirmation to view the created spreadsheet.
                     if (MessageBox.MessageService.Current.ShowMessage(Resources.WannaViewFile, Resources.FileCreated,

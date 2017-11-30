@@ -10,6 +10,6 @@ namespace XComponent.Common.UI.GridExport
 {
     public interface IGridExporter
     {
-        void ExportGrid(GridDataControl grid, string filePath);
+        void ExportGrid(GridDataControl grid, string filePath, string dateTimeFormat = "");
     }
 }
