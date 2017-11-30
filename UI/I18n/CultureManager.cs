@@ -11,6 +11,7 @@ namespace XComponent.Common.UI.I18n
     {
         fr,
         en,
+        de
     }
 
     public static class CultureManager
