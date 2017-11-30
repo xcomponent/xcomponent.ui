@@ -212,9 +212,7 @@ Target "CreatePackage" (fun _ ->
 
         // Create both normal nuget package. 
         // Uses the files we copied to libDir and outputs to buildDir
-        pack buildDir            
-        
-        removeDir nugetDir
+        pack buildDir           
 
     !! ("./UI/bin/"+ configuration + "/**/XComponent.*.dll")
     ++ ("./UI/bin/"+ configuration + "/XComponent.*.pdb")
