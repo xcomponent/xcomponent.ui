@@ -168,8 +168,6 @@ Target "CreatePackage" (fun _ ->
 
         ensureDirectory nugetDir
         printfn "Creating nuget packages..."
-
-        CleanDir nugetDir
         
         let projectDir = Path.GetDirectoryName nuspecFile  
         let project = Path.GetFileNameWithoutExtension nuspecFile      
